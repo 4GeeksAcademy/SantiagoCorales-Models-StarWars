@@ -13,9 +13,10 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
     first_name: Mapped[str] = mapped_column(String(50), nullable=False)
     last_name: Mapped[str] = mapped_column(String(50), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow
-    )
+    created_at = db.Column(
+    DateTime(timezone=True),
+    default=lambda: datetime.now(timezone.utc)
+)
 
     favorite_characters: Mapped[list["FavoriteCharacter"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
